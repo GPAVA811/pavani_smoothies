@@ -72,7 +72,7 @@ if ingredients_list:
           st.success('There are no pending orders right now')
 
  st.write(my_dataframe)
-.stop()
+st.stop()
 
 
 
