@@ -62,6 +62,7 @@ if ingredients_list:
            og_dataset.merge(edited_dataset
                      , (og_dataset['ORDER_UID'] == edited_dataset['ORDER_UID'])
                      , [when_matched().update({'ORDER_FILLED': edited_dataset['ORDER_FILLED']})]
+                           )
            st.success('Your Smoothie is ordered!'+""","""+ Name_on_order , icon="✅")
 
         except:
