@@ -48,14 +48,27 @@ if ingredients_list:
  
      #st.write(ingredients_string)
  
-     my_insert_stmt = """ insert into smoothies.public.orders(ingredients,Name_on_order)
-            values ('""" + ingredients_string + """','"""+ Name_on_order +"""')"""
-     time_to_insert = st.button('Submit Order')
-     if time_to_insert:
-        session.sql(my_insert_stmt).collect()
-        st.success('Your Smoothie is ordered!'+""","""+ Name_on_order , icon="✅")
-     st.write(my_insert_stmt)
-     st.stop()
+     my_dataframe = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect()
+     editable_df = st.data_editor(my_dataframe)
+     Submitted = st.button('Submit')
+ 
+     if Submitted :
+
+ 
+        og_dataset = session.table("smoothies.public.orders")
+        edited_dataset = session.create_dataframe(editable_df)
+       try:
+           og_dataset.merge(edited_dataset
+                     , (og_dataset['ORDER_UID'] == edited_dataset['ORDER_UID'])
+                     , [when_matched().update({'ORDER_FILLED': edited_dataset['ORDER_FILLED']})]
+          st.success('Your Smoothie is ordered!'+""","""+ Name_on_order , icon="✅")
+
+       except:
+          st.write('Something went wrong,')
+ 
+     else :
+          st.success('There are no pending orders right now')
+
 
 
 
