@@ -57,14 +57,15 @@ if ingredients_list:
  
         og_dataset = session.table("smoothies.public.orders")
         edited_dataset = session.create_dataframe(editable_df)
-       try:
+         
+        try:
            og_dataset.merge(edited_dataset
                      , (og_dataset['ORDER_UID'] == edited_dataset['ORDER_UID'])
                      , [when_matched().update({'ORDER_FILLED': edited_dataset['ORDER_FILLED']})]
-          st.success('Your Smoothie is ordered!'+""","""+ Name_on_order , icon="✅")
+           st.success('Your Smoothie is ordered!'+""","""+ Name_on_order , icon="✅")
 
-       except:
-          st.write('Something went wrong,')
+        except:
+           st.write('Something went wrong,')
  
      else :
           st.success('There are no pending orders right now')
